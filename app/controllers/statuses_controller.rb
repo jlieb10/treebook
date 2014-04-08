@@ -3,7 +3,6 @@ class StatusesController < ApplicationController
   # GET /statuses.json
   def index
     @statuses = Status.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @statuses }
@@ -41,7 +40,7 @@ class StatusesController < ApplicationController
   # POST /statuses.json
   def create
     @status = Status.new(params[:status])
-
+    @status.user = current_user
     respond_to do |format|
       if @status.save
         format.html { redirect_to @status, notice: 'Status was successfully created.' }

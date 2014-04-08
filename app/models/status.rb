@@ -1,3 +1,4 @@
 class Status < ActiveRecord::Base
-  attr_accessible :content, :name
+  belongs_to :user
+  attr_accessible :content, :user_id, :full_name, :first_name, :last_name
 end
