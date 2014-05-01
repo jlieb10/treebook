@@ -1,7 +1,7 @@
 TreeBook2::Application.routes.draw do
   get "profiles/show"
 
-  devise_for :users
+
 
   devise_scope :user do
     get 'register', to: 'devise/registrations#new', as: :register
@@ -10,8 +10,25 @@ TreeBook2::Application.routes.draw do
     get 'edit', to: 'devise/registrations#edit', as: :edit
   end
 
+  devise_for :users, skip: [:sessions]
+
+  as :user do
+    get "/login" => "devise/sessions#new", as: :new_user_session
+    post "/login" => "devise/sessions#create", as: :user_session
+    delete "/logout" => "devise/sessions#destroy", as: :destroy_user_session
+  end
+
+  resources :user_friendships
+
   resources :statuses
+  get 'feed', to: 'statuses#index', as: :feed
   root to: 'statuses#index'
+
+  get '/:id', to: 'profiles#show', as: 'profile'
+
+
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
